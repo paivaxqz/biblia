@@ -9,6 +9,10 @@ export default async function handler(req, res) {
 
   const { amount, payerName, payerDocument, transactionId, description } = req.body;
 
+  if (!MISTIC_CI || !MISTIC_CS) {
+    return res.status(500).json({ message: 'Configuração incompleta: MISTIC_CI ou MISTIC_CS não encontrados na Vercel.' });
+  }
+
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
