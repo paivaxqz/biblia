@@ -140,52 +140,45 @@
             <p>Olá! Você acaba de dar um passo incrível na educação cristã dos seus pequenos. Baixe seus materiais
                 abaixo:</p>
 
-            <div class="material-grid">
+            <div class="material-grid" id="material-grid">
                 <!-- Material Principal -->
-                <div class="material-item">
+                <div class="material-item" data-id="main">
                     <span class="bonus-badge">MATERIAL PRINCIPAL</span>
-                    <h3>25 Livros Bíblicos (+600 Atividades)</h3>
-                    <p>Conteúdo completo com Arca de Noé, Vida de Jesus, Davi e Golias e muito mais.</p>
+                    <h3>35 Livros Bíblicos (+600 Atividades)</h3>
+                    <p>Coleção completa organizada por temas: Arca de Noé, Vida de Jesus, Heróis da Fé e muito mais.</p>
                     <a href="#" class="btn-download">BAIXAR COMPLETO</a>
                 </div>
 
                 <!-- Bônus -->
-                <div class="material-item">
+                <div class="material-item" data-id="bonus">
                     <span class="bonus-badge">BÔNUS EXCLUSIVO</span>
                     <h3>Bônus Mês de Maio</h3>
-                    <p>Atividades especiais exclusivas para nossos alunos premium.</p>
+                    <p>Atividades especiais exclusivas para o mês de Maio.</p>
                     <a href="#" class="btn-download">BAIXAR BÔNUS</a>
                 </div>
 
                 <!-- Order Bump 1 -->
-                <div class="material-item">
+                <div class="material-item hidden" data-id="upsell1">
                     <span class="bonus-badge">ADICIONAL</span>
-                    <h3>1.200 Atividades Bíblicas</h3>
-                    <p>Um arsenal gigante de atividades para todas as idades.</p>
+                    <h3>Combo 1.200 Atividades Bíblicas Extra</h3>
+                    <p>Um arsenal gigante de atividades extras para complementar o aprendizado.</p>
                     <a href="#" class="btn-download">BAIXAR CONTEÚDO</a>
                 </div>
 
                 <!-- Order Bump 2 -->
-                <div class="material-item">
+                <div class="material-item hidden" data-id="upsell2">
                     <span class="bonus-badge">ADICIONAL</span>
-                    <h3>Caderno de Orações</h3>
-                    <p>Ajude seus pequenos a desenvolverem o hábito da oração.</p>
-                    <a href="#" class="btn-download">BAIXAR CADERNO</a>
-                </div>
-
-                <!-- Mais itens do Material Completo -->
-                <div class="material-item">
-                    <span class="bonus-badge">ADICIONAL</span>
-                    <h3>Cartões de Memorização</h3>
-                    <p>Versículos bíblicos formatados para fácil memorização.</p>
-                    <a href="#" class="btn-download">BAIXAR CARTÕES</a>
-                </div>
-
-                <div class="material-item">
-                    <span class="bonus-badge">ADICIONAL</span>
-                    <h3>Planner Devocional Infantil</h3>
-                    <p>Organize o tempo com Deus dos seus filhos diariamente.</p>
+                    <h3>Planner Devocional + Desafio 7 Dias</h3>
+                    <p>Organize o tempo com Deus dos seus filhos e participe do desafio bíblico.</p>
                     <a href="#" class="btn-download">BAIXAR PLANNER</a>
+                </div>
+
+                <!-- Cartões (Vou adicionar este pois está na pasta) -->
+                <div class="material-item hidden" data-id="upsell3">
+                    <span class="bonus-badge">ADICIONAL</span>
+                    <h3>Cartões Bíblicos para Memorização</h3>
+                    <p>Versículos bíblicos formatados para fácil memorização em cartões coloridos.</p>
+                    <a href="#" class="btn-download">BAIXAR CARTÕES</a>
                 </div>
             </div>
 
@@ -196,15 +189,27 @@
     </div>
 
     <script>
-        // Trava de Segurança Básica
+        // Trava de Segurança e Lógica de Itens
         const urlParams = new URLSearchParams(window.location.search);
         const tid = urlParams.get('tid');
+        const purchased = urlParams.get('u') ? urlParams.get('u').split(',') : [];
 
         if (tid && tid.startsWith('TX-')) {
             document.getElementById('main-content').style.display = 'block';
+
+            // Mostrar itens comprados
+            purchased.forEach(id => {
+                const el = document.querySelector(`.material-item[data-id="${id}"]`);
+                if (el) el.classList.remove('hidden');
+            });
         } else {
             document.getElementById('access-denied').style.display = 'block';
         }
+
+        // Estilo para a classe hidden no JS
+        const style = document.createElement('style');
+        style.innerHTML = '.hidden { display: none !important; }';
+        document.head.appendChild(style);
     </script>
 </body>
 

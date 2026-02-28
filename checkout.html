@@ -290,8 +290,8 @@
                                             <img src="Assets/product_atividades.png"
                                                 class="w-16 h-16 object-cover rounded-md">
                                             <div class="flex-1">
-                                                <h4 class="text-sm font-bold uppercase text-gray-800">Combo 35 Livros de
-                                                    Colorir</h4>
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">Combo 1.200
+                                                    Atividades Bíblicas Extra</h4>
                                                 <p class="text-xs text-gray-500">De <span class="line-through">R$
                                                         57,00</span> por <span class="text-green-600 font-bold">R$
                                                         8,90</span></p>
@@ -302,7 +302,7 @@
                                                 class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
                                                 <input type="checkbox" id="upsell1"
                                                     class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
-                                                    data-price="8.90" data-name="Combo 35 Livros de Colorir"
+                                                    data-price="8.90" data-name="1.200 Atividades Bíblicas Extra"
                                                     onclick="event.stopPropagation(); updateTotals()">
                                                 <span>SIM, EU QUERO INCLUIR</span>
                                             </label>
@@ -316,9 +316,9 @@
                                                 class="w-16 h-16 object-cover rounded-md">
                                             <div class="flex-1">
                                                 <h4 class="text-sm font-bold uppercase text-gray-800">Planner Devocional
-                                                    Infantil</h4>
+                                                    + Desafio 7 Dias</h4>
                                                 <p class="text-xs text-gray-500">De <span class="line-through">R$
-                                                        37,00</span> por <span class="text-green-600 font-bold">R$
+                                                        47,00</span> por <span class="text-green-600 font-bold">R$
                                                         6,90</span></p>
                                             </div>
                                         </div>
@@ -327,9 +327,33 @@
                                                 class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
                                                 <input type="checkbox" id="upsell2"
                                                     class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
-                                                    data-price="6.90" data-name="Planner Devocional Infantil"
+                                                    data-price="6.90" data-name="Planner Devocional + Desafio"
                                                     onclick="event.stopPropagation(); updateTotals()">
-                                                <span>SIM, QUERO INCLUIR</span>
+                                                <span>SIM, EU QUERO INCLUIR</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell3')">
+                                        <div class="order-bump-header text-gray-600">Evangelização Criativa</div>
+                                        <div class="p-4 flex gap-4 items-center">
+                                            <img src="Assets/product_atividades.png"
+                                                class="w-16 h-16 object-cover rounded-md opacity-80">
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">Cartões Bíblicos
+                                                    para Memorização</h4>
+                                                <p class="text-xs text-gray-500">Por apenas <span
+                                                        class="text-green-600 font-bold">R$ 4,90</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="px-4 pb-4">
+                                            <label
+                                                class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
+                                                <input type="checkbox" id="upsell3"
+                                                    class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
+                                                    data-price="4.90" data-name="Cartões de Memorização"
+                                                    onclick="event.stopPropagation(); updateTotals()">
+                                                <span>SIM, OFERTA ESPECIAL</span>
                                             </label>
                                         </div>
                                     </div>
@@ -468,11 +492,26 @@
             </div>
             <div id="payment-success" class="hidden">
                 <h3 class="font-bold text-xl mb-4 text-green-600">PIX Gerado com Sucesso!</h3>
-                <p class="text-sm text-gray-600 mb-4">Escaneie o QR Code ou copie o código abaixo para pagar.</p>
-                <img id="qr-code-img" src="" class="mx-auto border p-2 mb-4 w-48 h-48">
-                <div class="copy-box" id="pix-copy-paste" onclick="copyToClipboard()">Clique para copiar o código Pix
+                <div class="bg-blue-50 p-4 rounded-md mb-6 text-left border border-blue-100">
+                    <p class="text-xs font-bold text-blue-800 mb-2 uppercase">Como pagar:</p>
+                    <ol class="text-[11px] text-blue-700 space-y-1">
+                        <li>1. ESCANEIE O QR CODE OU COPIE O CÓDIGO ABAIXO.</li>
+                        <li>2. ABRA O APLICATIVO DO SEU BANCO.</li>
+                        <li>3. ESCOLHA A OPÇÃO <b>PIX COPIA E COLA</b> OU <b>LER QR CODE</b>.</li>
+                        <li>4. COLE O CÓDIGO E FINALIZE O PAGAMENTO.</li>
+                    </ol>
                 </div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase mb-6">Aguardando confirmação do pagamento...</p>
+                <img id="qr-code-img" src="" class="mx-auto border p-2 mb-4 w-48 h-48 rounded-lg shadow-sm">
+                <button
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-md mb-2 shadow-sm transition-all uppercase text-xs"
+                    onclick="copyToClipboard()" id="pix-copy-btn">
+                    Copiar Código Pix
+                </button>
+                <div class="text-[10px] text-gray-400 font-medium mb-6 break-all px-4" id="pix-copy-paste">...</div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase mb-6 flex items-center justify-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    Aguardando confirmação do pagamento...
+                </p>
                 <button onclick="closeOverlay()"
                     class="w-full bg-gray-100 py-3 rounded-md font-bold text-gray-500 uppercase text-xs">Voltar</button>
             </div>
@@ -616,7 +655,8 @@
                     const result = await response.json();
                     if (result.transaction && result.transaction.transactionState === 'COMPLETO') {
                         clearInterval(pollingInterval);
-                        window.location.href = `success.html?tid=${id}`;
+                        const upsells = Array.from(document.querySelectorAll('.upsell-check:checked')).map(c => c.id).join(',');
+                        window.location.href = `success.html?tid=${id}${upsells ? '&u=' + upsells : ''}`;
                     }
                 } catch (e) {
                     console.error("Erro ao verificar status:", e);
