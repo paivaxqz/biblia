@@ -411,16 +411,17 @@
                                     <span class="text-lg uppercase">TAMBÉM QUERO INCLUIR</span>
                                 </div>
 
-                                <div class="space-y-1 mb-10">
+                                <div class="space-y-3 mb-10">
+                                    <!-- Order Bump 1 -->
                                     <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell1')">
                                         <div class="order-bump-header text-gray-600">A maioria das famílias também
-                                            inclui este material</div>
+                                            inclui</div>
                                         <div class="p-4 flex gap-4 items-center">
-                                            <img src="Assets/product_atividades.png"
-                                                class="w-16 h-16 object-cover rounded-md">
+                                            <img src="Assets/product_upsell1.png"
+                                                class="w-16 h-16 object-cover rounded-md" loading="lazy">
                                             <div class="flex-1">
-                                                <h4 class="text-sm font-bold uppercase text-gray-800">Combo 1.200
-                                                    Atividades Bíblicas Extra</h4>
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">1.200 Atividades
+                                                    Bíblicas Extra</h4>
                                                 <p class="text-xs text-gray-500">De <span class="line-through">R$
                                                         57,00</span> por <span class="text-green-600 font-bold">R$
                                                         8,90</span></p>
@@ -431,24 +432,26 @@
                                                 class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
                                                 <input type="checkbox" id="upsell1"
                                                     class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
-                                                    data-price="8.90" data-name="1.200 Atividades Bíblicas Extra"
+                                                    data-price="8.90" data-name="1.200 Atividades Bíblicas"
                                                     onclick="event.stopPropagation(); updateTotals()">
                                                 <span>SIM, EU QUERO INCLUIR</span>
                                             </label>
                                         </div>
                                     </div>
+
+                                    <!-- Order Bump 2 -->
                                     <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell2')">
-                                        <div class="order-bump-header text-gray-600">Oferta Exclusiva para este pedido
-                                        </div>
+                                        <div class="order-bump-header text-gray-600">Oferta Exclusiva: Organização
+                                            Cristã</div>
                                         <div class="p-4 flex gap-4 items-center">
-                                            <img src="Assets/product_devocional.png"
-                                                class="w-16 h-16 object-cover rounded-md">
+                                            <img src="Assets/product_upsell2.png"
+                                                class="w-16 h-16 object-cover rounded-md" loading="lazy">
                                             <div class="flex-1">
                                                 <h4 class="text-sm font-bold uppercase text-gray-800">Planner Devocional
-                                                    + Desafio 7 Dias</h4>
+                                                    Infantil</h4>
                                                 <p class="text-xs text-gray-500">De <span class="line-through">R$
-                                                        47,00</span> por <span class="text-green-600 font-bold">R$
-                                                        6,90</span></p>
+                                                        37,00</span> por <span class="text-green-600 font-bold">R$
+                                                        7,90</span></p>
                                             </div>
                                         </div>
                                         <div class="px-4 pb-4">
@@ -456,23 +459,24 @@
                                                 class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
                                                 <input type="checkbox" id="upsell2"
                                                     class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
-                                                    data-price="6.90" data-name="Planner Devocional + Desafio"
+                                                    data-price="7.90" data-name="Planner Devocional"
                                                     onclick="event.stopPropagation(); updateTotals()">
                                                 <span>SIM, EU QUERO INCLUIR</span>
                                             </label>
                                         </div>
                                     </div>
 
+                                    <!-- Order Bump 3 -->
                                     <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell3')">
-                                        <div class="order-bump-header text-gray-600">Evangelização Criativa</div>
+                                        <div class="order-bump-header text-gray-600">Para toda a semana</div>
                                         <div class="p-4 flex gap-4 items-center">
-                                            <img src="Assets/product_atividades.png"
-                                                class="w-16 h-16 object-cover rounded-md opacity-80">
+                                            <img src="Assets/product_upsell3.png"
+                                                class="w-16 h-16 object-cover rounded-md" loading="lazy">
                                             <div class="flex-1">
-                                                <h4 class="text-sm font-bold uppercase text-gray-800">Cartões Bíblicos
-                                                    para Memorização</h4>
-                                                <p class="text-xs text-gray-500">Por apenas <span
-                                                        class="text-green-600 font-bold">R$ 4,90</span></p>
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">Desafio Bíblico de
+                                                    7 Dias</h4>
+                                                <p class="text-xs text-gray-500">Apenas <span
+                                                        class="text-green-600 font-bold">R$ 6,90</span></p>
                                             </div>
                                         </div>
                                         <div class="px-4 pb-4">
@@ -480,9 +484,34 @@
                                                 class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
                                                 <input type="checkbox" id="upsell3"
                                                     class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
-                                                    data-price="4.90" data-name="Cartões de Memorização"
+                                                    data-price="6.90" data-name="Desafio 7 Dias"
                                                     onclick="event.stopPropagation(); updateTotals()">
-                                                <span>SIM, OFERTA ESPECIAL</span>
+                                                <span>SIM, ACEITO O DESAFIO</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Order Bump 4 -->
+                                    <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell4')">
+                                        <div class="order-bump-header text-gray-600">Evangelização Criativa</div>
+                                        <div class="p-4 flex gap-4 items-center">
+                                            <img src="Assets/product_upsell4.png"
+                                                class="w-16 h-16 object-cover rounded-md" loading="lazy">
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">Cartões para
+                                                    Memorização</h4>
+                                                <p class="text-xs text-gray-500">Apenas <span
+                                                        class="text-green-600 font-bold">R$ 6,00</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="px-4 pb-4">
+                                            <label
+                                                class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
+                                                <input type="checkbox" id="upsell4"
+                                                    class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
+                                                    data-price="6.00" data-name="Cartões Memorização"
+                                                    onclick="event.stopPropagation(); updateTotals()">
+                                                <span>SIM, QUERO MEMORIZAR</span>
                                             </label>
                                         </div>
                                     </div>
