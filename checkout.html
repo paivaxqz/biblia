@@ -131,20 +131,119 @@
             background: white;
             border-radius: 12px;
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             padding: 30px;
             text-align: center;
             color: #333;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 40px;
-            height: 40px;
+        .pix-timer-box {
+            background: #E55858;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-block;
+            min-width: 35px;
+        }
+
+        .pix-timer-divider {
+            color: #E55858;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 0 4px;
+        }
+
+        .pix-badge {
+            background: #E6F6F1;
+            color: #0F7864;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy-pix {
+            background: white;
+            color: #333;
+            border: 1px solid #E2E8F0;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-copy-pix:hover {
+            background: #f8fafc;
+        }
+
+        .btn-paid {
+            background: #0F7864;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-paid:hover {
+            background: #0D6655;
+        }
+
+        .pix-steps {
+            text-align: left;
+            margin-top: 25px;
+            border-top: 1px solid #F1F5F9;
+            padding-top: 20px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #64748B;
+            line-height: 1.4;
+        }
+
+        .step-number {
+            background: #E6F6F1;
+            color: #0F7864;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            border-left-color: #0F7864;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 10px;
+        }
+
+        .spinner-small {
+            border: 2px solid rgba(0, 0, 0, 0.05);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border-left-color: #64748B;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
         }
 
         .pix-copy-animation {
@@ -521,29 +620,76 @@
                 <p class="text-sm text-gray-500">Aguarde um instante, estamos processando seu pedido.</p>
             </div>
             <div id="payment-success" class="hidden">
-                <h3 class="font-bold text-xl mb-4 text-green-600">PIX Gerado com Sucesso!</h3>
-                <div class="bg-blue-50 p-4 rounded-md mb-6 text-left border border-blue-100">
-                    <p class="text-xs font-bold text-blue-800 mb-2 uppercase">Como pagar:</p>
-                    <ol class="text-[11px] text-blue-700 space-y-1">
-                        <li>1. ESCANEIE O QR CODE OU COPIE O CÓDIGO ABAIXO.</li>
-                        <li>2. ABRA O APLICATIVO DO SEU BANCO.</li>
-                        <li>3. ESCOLHA A OPÇÃO <b>PIX COPIA E COLA</b> OU <b>LER QR CODE</b>.</li>
-                        <li>4. COLE O CÓDIGO E FINALIZE O PAGAMENTO.</li>
-                    </ol>
+                <h3 class="font-bold text-xl mb-1 text-gray-900">PIX gerado com sucesso!</h3>
+                <p class="text-sm text-gray-500 mb-6">Agora é só finalizar o pagamento</p>
+
+                <div class="flex items-center justify-center gap-2 mb-6">
+                    <span class="text-xs font-medium text-gray-600">Este código expirará em:</span>
+                    <div class="flex items-center">
+                        <div class="pix-timer-box" id="pix-min">09</div>
+                        <div class="pix-timer-divider">:</div>
+                        <div class="pix-timer-box" id="pix-sec">59</div>
+                    </div>
                 </div>
-                <img id="qr-code-img" src="" class="mx-auto border p-2 mb-4 w-48 h-48 rounded-lg shadow-sm">
-                <button
-                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-md mb-2 shadow-sm transition-all uppercase text-xs"
-                    onclick="copyToClipboard()" id="pix-copy-btn">
-                    Copiar Código Pix
-                </button>
-                <div class="text-[10px] text-gray-400 font-medium mb-6 break-all px-4" id="pix-copy-paste">...</div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase mb-6 flex items-center justify-center gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    Aguardando confirmação do pagamento...
-                </p>
-                <button onclick="closeOverlay()"
-                    class="w-full bg-gray-100 py-3 rounded-md font-bold text-gray-500 uppercase text-xs">Voltar</button>
+
+                <div class="relative inline-block mb-6">
+                    <img id="qr-code-img" src="" class="w-52 h-52 border-[6px] border-gray-50 rounded-xl">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                        <img src="Assets/cakto_logo.png" class="w-10">
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center gap-4 mb-8">
+                    <div class="flex items-center gap-2 text-xs font-medium text-gray-500">
+                        <div class="spinner-small"></div>
+                        <span>Aguardando pagamento...</span>
+                    </div>
+
+                    <div class="pix-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        A aprovação leva no máximo 2 minutos
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button class="btn-copy-pix" onclick="copyToClipboard()" id="pix-copy-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                        </svg>
+                        Copiar código Pix
+                    </button>
+                    <button class="btn-paid shadow-sm" onclick="closeOverlay()">
+                        Já fiz o pagamento
+                    </button>
+                </div>
+
+                <!-- Hidden data holder -->
+                <div id="pix-copy-paste" class="hidden"></div>
+
+                <div class="pix-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <p>Abra o app do seu banco e entre na opção <b>Pix</b></p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <p>Escolha a opção <b>Pagar / Pix copia e cola</b></p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <p>Escaneie o QR Code. Se preferir, copie e cole o código</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <p>Depois, confirme o pagamento</p>
+                    </div>
+                </div>
             </div>
             <div id="payment-error" class="hidden">
                 <h3 class="font-bold text-xl mb-4 text-red-600">Erro ao Gerar PIX</h3>
@@ -660,6 +806,21 @@
             document.getElementById('payment-success').classList.remove('hidden');
             document.getElementById('qr-code-img').src = imgBase64;
             document.getElementById('pix-copy-paste').textContent = copyPaste;
+
+            // Sync modal timer with main timer
+            const updateModalTimer = () => {
+                const m = Math.floor(time / 60);
+                const s = time % 60;
+                document.getElementById('pix-min').textContent = m < 10 ? '0' + m : m;
+                document.getElementById('pix-sec').textContent = s < 10 ? '0' + s : s;
+            };
+            updateModalTimer();
+            const modalTimerInt = setInterval(() => {
+                updateModalTimer();
+                if (time <= 0 || document.getElementById('payment-success').classList.contains('hidden')) {
+                    clearInterval(modalTimerInt);
+                }
+            }, 1000);
         }
 
         function showError(msg) {
@@ -705,10 +866,9 @@
 
             navigator.clipboard.writeText(text).then(() => {
                 // Visual Feedback
-                const originalText = btn.textContent;
-                btn.textContent = '✅ CÓDIGO COPIADO!';
-                btn.classList.add('bg-green-500', 'pix-copy-animation');
-                btn.classList.remove('bg-green-600');
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = '✅ CÓDIGO COPIADO!';
+                btn.classList.add('bg-green-50', 'text-green-600', 'border-green-200', 'pix-copy-animation');
 
                 // Haptic feedback (if supported)
                 if (window.navigator && window.navigator.vibrate) {
@@ -716,9 +876,8 @@
                 }
 
                 setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.classList.remove('bg-green-500', 'pix-copy-animation');
-                    btn.classList.add('bg-green-600');
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('bg-green-50', 'text-green-600', 'border-green-200', 'pix-copy-animation');
                 }, 3000);
             });
         }
