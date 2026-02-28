@@ -147,6 +147,36 @@
             margin: 0 auto 20px;
         }
 
+        .pix-copy-animation {
+            animation: pulse-green 0.5s ease-in-out;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+                background-color: #22c55e;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .pix-modal {
+                padding: 20px 15px;
+                border-radius: 20px;
+            }
+
+            .pix-modal h3 {
+                font-size: 1.25rem;
+            }
+        }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -671,12 +701,25 @@
 
         function copyToClipboard() {
             const text = document.getElementById('pix-copy-paste').textContent;
+            const btn = document.getElementById('pix-copy-btn');
+
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = document.getElementById('pix-copy-paste').textContent;
-                document.getElementById('pix-copy-paste').textContent = 'COPIADO COM SUCESSO!';
+                // Visual Feedback
+                const originalText = btn.textContent;
+                btn.textContent = '✅ CÓDIGO COPIADO!';
+                btn.classList.add('bg-green-500', 'pix-copy-animation');
+                btn.classList.remove('bg-green-600');
+
+                // Haptic feedback (if supported)
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(50);
+                }
+
                 setTimeout(() => {
-                    document.getElementById('pix-copy-paste').textContent = text;
-                }, 2000);
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-green-500', 'pix-copy-animation');
+                    btn.classList.add('bg-green-600');
+                }, 3000);
             });
         }
 
