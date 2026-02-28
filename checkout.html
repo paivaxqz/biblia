@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Biblia para Pequenos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Assets/checkout_style.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f1f1;
+            color: #212B36;
+        }
+
+        .bg-page {
+            background-color: #f1f1f1;
+        }
+
+        .color-primary {
+            color: #0F7864;
+        }
+
+        .bg-primary {
+            background-color: #0F7864;
+        }
+
+        .bg-primary-dark {
+            background-color: #0B6856;
+        }
+
+        .border-light {
+            border-color: rgba(145, 158, 171, 0.2);
+        }
+
+        .shadow-cakto {
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .max-w-cakto {
+            max-width: 1080px;
+        }
+
+        .order-bump {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: 2px dashed #D1D1D1;
+            background-color: #EDEDED;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        .order-bump-header {
+            background-color: #D1D1D1;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pay-tab {
+            background-color: #0B6856;
+            color: white;
+            border: 1px solid #0B6856;
+            transition: all 0.2s;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        input::placeholder {
+            color: #919EAB;
+        }
+
+        input:focus {
+            outline: none;
+            border: 1px solid #0F7864;
+            box-shadow: 0 0 0 3px rgba(15, 120, 100, 0.1);
+        }
+
+        .input-premium {
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .input-premium:focus {
+            background-color: #fff;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-summary {
+                display: block;
+            }
+
+            .desktop-summary {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-summary {
+                display: none;
+            }
+
+            .desktop-summary {
+                display: block;
+            }
+        }
+
+        /* Payment Loading / Success Overlay */
+        #payment-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .pix-modal {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+            color: #333;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: #0F7864;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .copy-box {
+            background: #f4f6f8;
+            padding: 12px;
+            border-radius: 6px;
+            word-break: break-all;
+            font-size: 11px;
+            margin: 15px 0;
+            border: 1px dashed #ccc;
+            cursor: pointer;
+        }
+
+        .copy-box:hover {
+            background: #eef1f4;
+        }
+    </style>
+</head>
+
+<body class="bg-page">
+    <div id="root">
+        <div class="flex flex-col min-h-screen w-full py-4 md:py-6 px-4 md:px-12">
+            <div class="max-w-cakto mx-auto w-full">
+                <!-- Banner Urgência -->
+                <div class="rounded-lg p-3 md:p-4 flex flex-nowrap justify-center items-center gap-4 mb-4"
+                    style="background-color: #E55858; color: white;">
+                    <h3 id="timer" class="text-2xl font-bold md:text-3xl">09:59</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"
+                        class="w-8 h-8">
+                        <path fill="currentColor"
+                            d="M153.59 110.46A21.41 21.41 0 0 0 152.48 79A62.67 62.67 0 0 0 112 64l-3.27.09h-.48C74.4 66.15 48 95.55 48.07 131c0 19 8 29.06 14.32 37.11a20.61 20.61 0 0 0 14.7 7.8c.26 0 .7.05 2 .05a19.06 19.06 0 0 0 13.75-5.89Zm250.2-46.35l-3.27-.1H400a62.67 62.67 0 0 0-40.52 15a21.41 21.41 0 0 0-1.11 31.44l60.77 59.65a19.06 19.06 0 0 0 13.79 5.9c1.28 0 1.72 0 2-.05a20.61 20.61 0 0 0 14.69-7.8c6.36-8.05 14.28-18.08 14.32-37.11c.06-35.49-26.34-64.89-60.15-66.93Z">
+                        </path>
+                        <path fill="currentColor"
+                            d="M256.07 96c-97 0-176 78.95-176 176a175.23 175.23 0 0 0 40.81 112.56l-36.12 36.13a16 16 0 1 0 22.63 22.62l36.12-36.12a175.63 175.63 0 0 0 225.12 0l36.13 36.12a16 16 0 1 0 22.63-22.62l-36.13-36.13A175.17 175.17 0 0 0 432.07 272c0-97-78.95-176-176-176Zm16 176a16 16 0 0 1-16 16h-80a16 16 0 0 1 0-32h64v-96a16 16 0 0 1 32 0Z">
+                        </path>
+                    </svg>
+                    <span class="text-sm font-medium">Oferta por tempo limitado</span>
+                </div>
+
+                <!-- Banner Principal -->
+                <div class="mb-4">
+                    <img src="Assets/checkout_banner.png" alt="Banner" class="w-full h-auto rounded-md shadow-cakto">
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                    <!-- Coluna Esquerda -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white rounded-md shadow-cakto p-5 md:p-8">
+                            <!-- Produto Header -->
+                            <div class="flex items-center gap-4 mb-8">
+                                <img src="Assets/product_main.png"
+                                    class="w-16 h-16 md:w-24 md:h-24 object-cover rounded-md">
+                                <div class="flex-1">
+                                    <h2 class="text-lg md:text-xl font-bold leading-tight text-gray-900">Protegendo essa
+                                        Geração com Cristo com 25 Livros + de 600 atividades</h2>
+                                    <div class="text-xl font-bold color-primary">R$ 11,90</div>
+                                </div>
+                            </div>
+
+                            <!-- Seção Dados -->
+                            <form id="checkout-form">
+                                <div class="flex items-center mb-6 font-bold text-gray-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
+                                        </path>
+                                    </svg>
+                                    <span class="text-lg">Seus dados</span>
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-500 text-[10px] uppercase font-bold mb-1 ml-1"
+                                        for="email">Digite seu melhor e-mail</label>
+                                    <input id="email" type="email" placeholder="nome@exemplo.com" required
+                                        class="w-full border border-light rounded-md px-4 py-3 text-sm focus:border-primary outline-none input-premium">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-500 text-[10px] uppercase font-bold mb-1 ml-1"
+                                            for="phone">Celular com DDD</label>
+                                        <input id="phone" type="text" placeholder="(00) 00000-0000" required
+                                            class="w-full border border-light rounded-md px-4 py-3 text-sm focus:border-primary outline-none input-premium">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-500 text-[10px] uppercase font-bold mb-1 ml-1"
+                                            for="name">Nome completo</label>
+                                        <input id="name" type="text" placeholder="Seu nome completo" required
+                                            class="w-full border border-light rounded-md px-4 py-3 text-sm focus:border-primary outline-none input-premium">
+                                    </div>
+                                </div>
+
+                                <!-- Seção Pagamento (Apenas PIX) -->
+                                <div class="flex items-center mb-6 font-bold text-gray-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125-1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z">
+                                        </path>
+                                    </svg>
+                                    <span class="text-lg">Pagamento</span>
+                                </div>
+
+                                <div class="flex mb-6">
+                                    <div
+                                        class="pay-tab flex-1 py-4 md:py-6 rounded-md flex flex-col items-center justify-center font-bold text-lg shadow-cakto">
+                                        <span>PIX</span>
+                                    </div>
+                                </div>
+
+                                <div id="fields-pix"
+                                    class="text-center py-12 bg-gray-50 rounded-md mb-10 border border-light">
+                                    <p class="font-bold text-gray-700 px-4">O código PIX será gerado após clicar no
+                                        botão pagar abaixo.</p>
+                                </div>
+
+                                <!-- Order Bumps -->
+                                <div class="flex items-center mb-6 font-bold text-gray-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m9 14.25 6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185ZM9.75 9h.008v.008H9.75V9Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008V13.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z">
+                                        </path>
+                                    </svg>
+                                    <span class="text-lg uppercase">TAMBÉM QUERO INCLUIR</span>
+                                </div>
+
+                                <div class="space-y-1 mb-10">
+                                    <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell1')">
+                                        <div class="order-bump-header text-gray-600">A maioria das famílias também
+                                            inclui este material</div>
+                                        <div class="p-4 flex gap-4 items-center">
+                                            <img src="Assets/product_atividades.png"
+                                                class="w-16 h-16 object-cover rounded-md">
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">Combo 35 Livros de
+                                                    Colorir</h4>
+                                                <p class="text-xs text-gray-500">De <span class="line-through">R$
+                                                        57,00</span> por <span class="text-green-600 font-bold">R$
+                                                        8,90</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="px-4 pb-4">
+                                            <label
+                                                class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
+                                                <input type="checkbox" id="upsell1"
+                                                    class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
+                                                    data-price="8.90" data-name="Combo 35 Livros de Colorir"
+                                                    onclick="event.stopPropagation(); updateTotals()">
+                                                <span>SIM, EU QUERO INCLUIR</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="order-bump shadow-cakto" onclick="toggleUpsell('upsell2')">
+                                        <div class="order-bump-header text-gray-600">Oferta Exclusiva para este pedido
+                                        </div>
+                                        <div class="p-4 flex gap-4 items-center">
+                                            <img src="Assets/product_devocional.png"
+                                                class="w-16 h-16 object-cover rounded-md">
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-bold uppercase text-gray-800">Planner Devocional
+                                                    Infantil</h4>
+                                                <p class="text-xs text-gray-500">De <span class="line-through">R$
+                                                        37,00</span> por <span class="text-green-600 font-bold">R$
+                                                        6,90</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="px-4 pb-4">
+                                            <label
+                                                class="flex items-center gap-2 cursor-pointer text-sm font-bold text-gray-800">
+                                                <input type="checkbox" id="upsell2"
+                                                    class="upsell-check w-5 h-5 rounded border-gray-300 text-primary"
+                                                    data-price="6.90" data-name="Planner Devocional Infantil"
+                                                    onclick="event.stopPropagation(); updateTotals()">
+                                                <span>SIM, QUERO INCLUIR</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- Mobile Summary -->
+                            <div class="mobile-summary mt-8 mb-6">
+                                <div class="p-4 rounded-md bg-page border border-light">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-bold text-sm text-gray-800 uppercase tracking-tighter">Resumo
+                                            do Pedido</span>
+                                        <span class="text-[10px] text-gray-400 font-bold uppercase">Total</span>
+                                    </div>
+                                    <div class="flex justify-between items-end">
+                                        <span class="text-[10px] text-gray-500 font-medium">Subtotal + Taxa</span>
+                                        <div class="text-right">
+                                            <div class="text-2xl font-bold text-gray-800 main-total-display">R$ 12,89
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button id="pay-button" onclick="handlePayment()"
+                                class="w-full bg-primary-dark text-white font-bold py-5 rounded-md shadow-lg shadow-cakto uppercase text-lg tracking-wide hover:opacity-95 transition-all">
+                                Gerar PIX de R$ 12,89
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita (Desktop Sidebar) -->
+                    <div class="desktop-summary sticky top-6 space-y-6">
+                        <div class="bg-white rounded-md shadow-cakto overflow-hidden">
+                            <div
+                                class="bg-primary text-white p-4 font-bold text-center uppercase text-xs tracking-widest">
+                                Compra Segura</div>
+                            <div class="p-6 bg-page space-y-4">
+                                <div class="bg-white p-3 rounded-md shadow-cakto flex items-center gap-3">
+                                    <img src="Assets/product_main.png" class="w-12 h-12 object-cover rounded-md">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-[10px] font-bold text-gray-800 line-clamp-2">Protegendo essa
+                                            Geração com Cristo com 25 Livros...</p>
+                                        <p class="text-[8px] text-gray-400 font-bold uppercase">Quantidade: 1</p>
+                                    </div>
+                                    <span class="font-bold text-xs">R$ 11,90</span>
+                                </div>
+
+                                <div class="space-y-2 pt-2">
+                                    <div class="flex justify-between text-[10px] text-gray-500 font-bold uppercase">
+                                        <span>Taxa de serviço</span>
+                                        <span>R$ 0,99</span>
+                                    </div>
+                                    <div class="border-t border-gray-200 my-2"></div>
+                                    <div class="flex justify-between items-center text-gray-800">
+                                        <span class="font-bold text-sm">Total</span>
+                                        <div class="text-right">
+                                            <div class="font-bold text-2xl main-total-display">R$ 12,89</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 bg-page">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center gap-2 text-green-600 font-bold text-[10px] uppercase">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="w-5 h-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>Compra 100% segura</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-500 font-bold text-[10px] uppercase">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="w-5 h-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>Garantia de 7 Dias</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-500 font-bold text-[10px] uppercase">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="w-5 h-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>Acesso Imediato</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-md shadow-cakto border border-light">
+                            <h4 class="font-bold text-gray-800 mb-4 uppercase text-[10px]">Atenção Vendedora</h4>
+                            <p class="text-[10px] text-gray-500 leading-relaxed font-bold uppercase">Você está prestes a
+                                adquirir o melhor material bíblico infantil do Brasil. Prepare-se para evangelizar seus
+                                pequenos!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="py-20 text-center">
+                    <img src="Assets/cakto_logo.png" class="h-8 md:h-10 opacity-30 mx-auto grayscale mb-10" alt="Logo">
+                    <div
+                        class="flex flex-col md:flex-row justify-center items-center gap-6 text-[10px] text-gray-400 font-bold uppercase tracking-widest px-4">
+                        <span>Políticas de Privacidade</span>
+                        <div class="hidden md:block w-1.5 h-1.5 bg-gray-200 rounded-full"></div>
+                        <span>Termos de Uso</span>
+                        <div class="hidden md:block w-1.5 h-1.5 bg-gray-200 rounded-full"></div>
+                        <span class="text-green-600 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="w-5 h-5">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Compra 100% Segura
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Overlay -->
+    <div id="payment-overlay">
+        <div class="pix-modal">
+            <div id="payment-loading">
+                <div class="spinner"></div>
+                <h3 class="font-bold text-xl mb-2">Gerando PIX...</h3>
+                <p class="text-sm text-gray-500">Aguarde um instante, estamos processando seu pedido.</p>
+            </div>
+            <div id="payment-success" class="hidden">
+                <h3 class="font-bold text-xl mb-4 text-green-600">PIX Gerado com Sucesso!</h3>
+                <p class="text-sm text-gray-600 mb-4">Escaneie o QR Code ou copie o código abaixo para pagar.</p>
+                <img id="qr-code-img" src="" class="mx-auto border p-2 mb-4 w-48 h-48">
+                <div class="copy-box" id="pix-copy-paste" onclick="copyToClipboard()">Clique para copiar o código Pix
+                </div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase mb-6">Aguardando confirmação do pagamento...</p>
+                <button onclick="closeOverlay()"
+                    class="w-full bg-gray-100 py-3 rounded-md font-bold text-gray-500 uppercase text-xs">Voltar</button>
+            </div>
+            <div id="payment-error" class="hidden">
+                <h3 class="font-bold text-xl mb-4 text-red-600">Erro ao Gerar PIX</h3>
+                <p id="error-message" class="text-sm text-gray-600 mb-6">Não foi possível criar a transação. Tente
+                    novamente.</p>
+                <button onclick="closeOverlay()"
+                    class="w-full bg-primary py-3 rounded-md font-bold text-white uppercase text-xs">Tentar
+                    Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Routes (Vercel Backend)
+        const API_URL = '/api/create-transaction';
+        const CHECK_URL = '/api/check-transaction';
+        let pollingInterval;
+
+        // Timer
+        let time = 599;
+        const display = document.getElementById('timer');
+        setInterval(() => {
+            const m = Math.floor(time / 60);
+            const s = time % 60;
+            display.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            if (time > 0) time--;
+        }, 1000);
+
+        // Masks
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function (e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+
+        // Price Logic
+        const basePrice = 11.90;
+        const serviceFee = 0.99;
+        let currentTotal = 12.89;
+
+        function updateTotals() {
+            let extra = 0;
+            document.querySelectorAll('.upsell-check').forEach(cb => {
+                if (cb.checked) extra += parseFloat(cb.dataset.price);
+            });
+
+            currentTotal = basePrice + serviceFee + extra;
+            const formattedTotal = currentTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            document.querySelectorAll('.main-total-display').forEach(el => el.textContent = formattedTotal);
+            document.getElementById('pay-button').textContent = `Gerar PIX de ${formattedTotal}`;
+        }
+
+        function toggleUpsell(id) {
+            const cb = document.getElementById(id);
+            if (event && event.target === cb) return;
+            cb.checked = !cb.checked;
+            updateTotals();
+        }
+
+        // Payment logic
+        async function handlePayment() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // Form Validation
+            if (!name || !email || !phone) { alert('Preencha todos os campos obrigatórios.'); return; }
+
+            showOverlay();
+
+            const description = "Combo Biblia Pequenos + " + Array.from(document.querySelectorAll('.upsell-check:checked')).map(c => c.dataset.name).join(", ");
+            const transactionId = "TX-" + Date.now();
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: currentTotal,
+                        payerName: name,
+                        payerDocument: "000.000.000-00", // CPF Opcional/Dummy para API
+                        transactionId: transactionId,
+                        description: description
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.data) {
+                    showSuccess(result.data.qrCodeBase64, result.data.copyPaste);
+                    startPolling(result.data.transactionId);
+                } else {
+                    showError(result.message || 'Erro ao processar transação.');
+                }
+            } catch (err) {
+                showError('Erro de conexão. Verifique sua internet.');
+                console.error(err);
+            }
+        }
+
+        function showOverlay() {
+            if (pollingInterval) clearInterval(pollingInterval);
+            document.getElementById('payment-overlay').style.display = 'flex';
+            document.getElementById('payment-loading').classList.remove('hidden');
+            document.getElementById('payment-success').classList.add('hidden');
+            document.getElementById('payment-error').classList.add('hidden');
+        }
+
+        function showSuccess(imgBase64, copyPaste) {
+            document.getElementById('payment-loading').classList.add('hidden');
+            document.getElementById('payment-success').classList.remove('hidden');
+            document.getElementById('qr-code-img').src = imgBase64;
+            document.getElementById('pix-copy-paste').textContent = copyPaste;
+        }
+
+        function showError(msg) {
+            document.getElementById('payment-loading').classList.add('hidden');
+            document.getElementById('payment-error').classList.remove('hidden');
+            document.getElementById('error-message').textContent = msg;
+        }
+
+        // Check Payment Status
+        async function startPolling(id) {
+            if (pollingInterval) clearInterval(pollingInterval);
+
+            pollingInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(CHECK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ transactionId: id })
+                    });
+
+                    const result = await response.json();
+                    if (result.transaction && result.transaction.transactionState === 'COMPLETO') {
+                        clearInterval(pollingInterval);
+                        window.location.href = `success.html?tid=${id}`;
+                    }
+                } catch (e) {
+                    console.error("Erro ao verificar status:", e);
+                }
+            }, 5000); // Check every 5 seconds
+        }
+
+        function closeOverlay() {
+            if (pollingInterval) clearInterval(pollingInterval);
+            document.getElementById('payment-overlay').style.display = 'none';
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('pix-copy-paste').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = document.getElementById('pix-copy-paste').textContent;
+                document.getElementById('pix-copy-paste').textContent = 'COPIADO COM SUCESSO!';
+                setTimeout(() => {
+                    document.getElementById('pix-copy-paste').textContent = text;
+                }, 2000);
+            });
+        }
+
+        // Initial call
+        updateTotals();
+    </script>
+</body>
+
+</html>
